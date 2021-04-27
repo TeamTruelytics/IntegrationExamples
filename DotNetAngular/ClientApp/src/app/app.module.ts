@@ -9,6 +9,10 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { TruelyticsPeerBenchmarksComponent } from './truelytics-peer-benchmarks/truelytics-peer-benchmarks.component';
+import { TruelyticsWidgetsComponent } from './truelytics-widgets/truelytics-widgets.component';
+import { TruelyticsEmbeddedComponent } from './truelytics-embedded/truelytics-embedded.component';
+import { TruelyticsConnectComponent } from './truelytics-connect/truelytics-connect.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,11 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    TruelyticsPeerBenchmarksComponent,
+    TruelyticsWidgetsComponent,
+    TruelyticsEmbeddedComponent,
+    TruelyticsConnectComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,6 +34,10 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'truelytics/peer-benchmarks', component: TruelyticsPeerBenchmarksComponent },
+      { path: 'truelytics/widgets', component: TruelyticsWidgetsComponent },
+      { path: 'truelytics/embedded', component: TruelyticsEmbeddedComponent },
+      { path: 'truelytics/connect', component: TruelyticsConnectComponent },
     ])
   ],
   providers: [],

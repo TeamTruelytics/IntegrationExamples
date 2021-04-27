@@ -33,7 +33,7 @@ namespace DotNetAngular.Api
 
             return user;
         }
-
+        
         [Route("auth/callback")]
         public async Task<IActionResult> AuthCallback(TruelyticsAuthCallbackPayload model)
         {
