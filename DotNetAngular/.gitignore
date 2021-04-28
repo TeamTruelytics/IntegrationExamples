@@ -229,3 +229,14 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+
+# ignore appsettings configuration files
+**/appsettings.development.json
+**/appsettings.staging.json
+**/appsettings.production.json
+
+**/ClientApp/src/app/**/*.js.map
+**/ClientApp/src/app/**/*.js
+**/ClientApp/src/models/**/*.js.map
+**/ClientApp/src/models/**/*.js
