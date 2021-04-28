@@ -31,7 +31,7 @@ export class TruelyticsConnectComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  connect(): void {
+  login(): void {
     const redirect = this.baseUrl + 'truelytics/connect?redirect=' + encodeURIComponent(this.params["redirect"] || '');
 
     this.http.get<AuthInitResult>(this.baseUrl + 'api/truelytics/auth/init?redirect=' + encodeURIComponent(redirect)).subscribe(result => {
@@ -39,6 +39,16 @@ export class TruelyticsConnectComponent implements OnInit {
 
       window.location.href = result.loginUrl;
     }, error => console.error(error));
-
   }
+
+  register(): void {
+    const redirect = this.baseUrl + 'truelytics/connect?redirect=' + encodeURIComponent(this.params["redirect"] || '');
+
+    this.http.get<AuthInitResult>(this.baseUrl + 'api/truelytics/auth/init?redirect=' + encodeURIComponent(redirect)).subscribe(result => {
+      console.debug('truelytics auth init', result);
+
+      window.location.href = result.registerUrl;
+    }, error => console.error(error));
+  }
+
 }
