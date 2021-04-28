@@ -34,7 +34,7 @@ export class TruelyticsWidgetsComponent implements OnInit {
         console.log('login success?', results, this.integration.nativeElement);
 
         if (results.success) {
-          truelytics.xd.consumer.addFrame('/TruePerformance/Analytics/PeerBenchmarkCarouselWidget', this.integration.nativeElement);
+          truelytics.xd.consumer.addFrame('/TruePerformance/Analytics/PeerBenchmarkCarouselWidget', this.integration.nativeElement, null, { height: "320px" });
         }
         else {
           console.error('unable to use sso token', results);
