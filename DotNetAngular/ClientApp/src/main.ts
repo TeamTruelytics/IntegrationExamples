@@ -8,8 +8,14 @@ export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
+export function getTruelyticsUrl() {
+  return 'https://embed.truelytics.com';
+}
+
+
 const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
+  { provide: 'TRUELYTICS_EMBED_URL', useFactory: getTruelyticsUrl, deps: [] }
 ];
 
 if (environment.production) {

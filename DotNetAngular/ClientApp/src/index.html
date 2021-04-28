@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>DotNetAngular</title>
-    <base href="/" />
+<head>
+  <meta charset="utf-8" />
+  <title>DotNetAngular</title>
+  <base href="/" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  </head>
-  <body>
-    <app-root>Loading...</app-root>
-  </body>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <script src="https://embed.truelytics.com/scripts/integrations/consumer.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+
+  <script>
+    truelytics.xd.consumer.initialize('https://embed.truelytics.com', jQuery);
+  </script>
+</head>
+<body>
+  <app-root>Loading...</app-root>
+
+  <section class="container">
+    <hr />
+    <h2>Truelytics Integration Log</h2>
+
+    <div class="mb-3 p-2" style="height: 150px; border: 1px solid black; overflow: auto; margin-bottom: 30px;">
+      <div id="truelytics-log"></div>
+    </div>
+  </section>
+  
+
+  <script>
+    var $log = jQuery('#truelytics-log');
+    //console.log('new log', $log, window.truelytics.xd.consumer.log);
+
+    window.truelytics.xd.consumer.log = function () {
+      if (!arguments || arguments.length == 0) return;
+
+
+      var logItem = produceOutput(jQuery.makeArray(arguments));
+
+      $log.append(jQuery('<pre class="mb-1" style="border-bottom: 1px solid #c0c0c0;" />').html(logItem));
+    }
+
+    function produceOutput(args) {
+      return args.reduce((output, arg) => {
+        return output +
+          "<span class='mr-1'>" +
+          (typeof arg === "object" && (JSON || {}).stringify ? JSON.stringify(arg) : arg) +
+          "</span>";
+      }, '');
+    }
+  </script>
+</body>
 </html>

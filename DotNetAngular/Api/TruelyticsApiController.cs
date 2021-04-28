@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace DotNetAngular.Api
 {
-    [Route("api/truelytics")]
+    [Route("/api/truelytics")]
     [ApiController]
     public class TruelyticsApiController : ControllerBase
     {
@@ -19,27 +19,41 @@ namespace DotNetAngular.Api
         }
 
         [Route("user-info")]
+        [Route("user-details")]
         public ActionResult<TruelyticsUserDetails> GetUserInfo()
         {
             var user = JsonConvert.DeserializeObject<TruelyticsUserDetails>(HttpContext.Session.GetString("TruelyticsUserDetails") ?? "{}");
 
-            return user;
+            return user!;
         }
 
-        [Route("auth/init")]
-        public ActionResult<TruelyticsUserDetails> InitializeUserAuth()
+        [Route("auth/token")]
+        public async Task<ActionResult<string?>> GenerateAuthToken()
         {
             var user = JsonConvert.DeserializeObject<TruelyticsUserDetails>(HttpContext.Session.GetString("TruelyticsUserDetails") ?? "{}");
 
-            return user;
+            return (await _truelyticsService.GenerateSsoTokenAsync(user.TruelyticsApiKey))?.ToString();
         }
-        
-        [Route("auth/callback")]
-        public async Task<IActionResult> AuthCallback(TruelyticsAuthCallbackPayload model)
+
+        [Route("auth/init")]
+        public async Task<ActionResult<AuthInitResult>> InitializeUserAuth(string? redirect, string? callback)
         {
-            if(!string.IsNullOrWhiteSpace(model.Id))
+            var authKey = await _truelyticsService.GenerateAuthKeyAsync(redirect, callback);
+
+            return new AuthInitResult()
             {
-                var json = await _truelyticsService.CallApiAsync($"/integrations/authkeys/{model.Id}", HttpMethod.Get);
+                Id = authKey.Id,
+                LoginUrl = _truelyticsService.GetLoginUrl(authKey.Id),
+                RegisterUrl = _truelyticsService.GetRegisterUrl(authKey.Id)
+            };
+        }
+
+        [Route("auth/callback")]
+        public async Task<IActionResult> AuthCallback(string? id, string? redirect)
+        {
+            if(!string.IsNullOrWhiteSpace(id))
+            {
+                var json = await _truelyticsService.CallAdminApiAsync($"/integrations/authkeys/{id}", HttpMethod.Get);
                 
                 if(!string.IsNullOrWhiteSpace(json))
                 {
@@ -60,9 +74,9 @@ namespace DotNetAngular.Api
                 }
             }
 
-            return string.IsNullOrWhiteSpace(model.Redirect)
+            return string.IsNullOrWhiteSpace(redirect)
                 ? (IActionResult)new LocalRedirectResult("/")
-                : (IActionResult)Redirect(model.Redirect);
+                : (IActionResult)Redirect(redirect);
         }
     }
 }
