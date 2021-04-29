@@ -10,7 +10,7 @@ declare const truelytics: any;
   templateUrl: './truelytics-embedded.component.html',
   styleUrls: ['./truelytics-embedded.component.css']
 })
-export class TruelyticsEmbeddedComponent implements OnInit {
+export class TruelyticsEmbeddedComponent implements OnInit, AfterViewInit {
   details: TruelyticsUserDetails;
   @ViewChild('integration') integration: ElementRef;
   public loading = false;

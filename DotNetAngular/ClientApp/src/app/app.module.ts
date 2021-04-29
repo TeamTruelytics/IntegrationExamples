@@ -13,6 +13,7 @@ import { TruelyticsPeerBenchmarksComponent } from './truelytics-peer-benchmarks/
 import { TruelyticsWidgetsComponent } from './truelytics-widgets/truelytics-widgets.component';
 import { TruelyticsEmbeddedComponent } from './truelytics-embedded/truelytics-embedded.component';
 import { TruelyticsConnectComponent } from './truelytics-connect/truelytics-connect.component';
+import { TruelyticsLaunchComponent } from './truelytics-launch/truelytics-launch.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TruelyticsConnectComponent } from './truelytics-connect/truelytics-conn
     TruelyticsPeerBenchmarksComponent,
     TruelyticsWidgetsComponent,
     TruelyticsEmbeddedComponent,
-    TruelyticsConnectComponent
+    TruelyticsConnectComponent,
+    TruelyticsLaunchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,6 +40,7 @@ import { TruelyticsConnectComponent } from './truelytics-connect/truelytics-conn
       { path: 'truelytics/widgets', component: TruelyticsWidgetsComponent },
       { path: 'truelytics/embedded', component: TruelyticsEmbeddedComponent },
       { path: 'truelytics/connect', component: TruelyticsConnectComponent },
+      { path: 'truelytics/launch', component: TruelyticsLaunchComponent },
     ])
   ],
   providers: [],

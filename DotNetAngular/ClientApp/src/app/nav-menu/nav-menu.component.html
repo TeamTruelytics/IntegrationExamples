@@ -49,6 +49,13 @@
           >
             <a class="nav-link text-dark" [routerLink]="['/truelytics/embedded']">Embedded</a>
           </li>
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/truelytics/launch']">Launch</a>
+          </li>
           <!--<li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/counter']"
               >Counter</a
