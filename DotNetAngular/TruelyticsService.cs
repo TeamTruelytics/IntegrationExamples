@@ -29,7 +29,19 @@ namespace DotNetAngular
 
         public async Task<string?> CallApiAsync(string apiKey, string endpoint, HttpMethod method, object? data = null)
         {
+#if DEBUG
+            //var httpClientHandler = new HttpClientHandler
+            //{
+            //    ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true
+            //};
+
+            //using var client = new HttpClient(httpClientHandler);
+
             using var client = new HttpClient();
+#else
+            using var client = new HttpClient();
+#endif
+
             client.DefaultRequestHeaders
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -38,15 +50,23 @@ namespace DotNetAngular
             {
                 Headers =
                 {
-                    { "Authorization", $"Bearer {TruelyticsConfig.ApiKey}" },
+                    { "Authorization", $"Bearer {apiKey}" },
                 }
             };
 
-            if (data != null) req.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            try
+            {
+                if (data != null) req.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-            using var res = await client.SendAsync(req);
+                using var res = await client.SendAsync(req);
 
-            return await res.Content.ReadAsStringAsync();
+                return await res.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                // TODO: handle
+                throw;
+            }
         }
 
         public async Task<IntegrationAuthKey> GenerateAuthKeyAsync(string? redirect, string? callback = null)

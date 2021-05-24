@@ -18,6 +18,24 @@ namespace DotNetAngular.Api
             _truelyticsService = truelyticsService;
         }
 
+#if DEBUG
+        //[Route("user-info")]
+        //[Route("user-details")]
+        //[HttpPost]
+        //public ActionResult SetUserInfo(int truelyticsUserId, string truelyticsApiKey)
+        //{
+        //    var user = JsonConvert.DeserializeObject<TruelyticsUserDetails>(HttpContext.Session.GetString("TruelyticsUserDetails") ?? "{}");
+
+        //    HttpContext.Session.SetString("TruelyticsUserDetails", JsonConvert.SerializeObject(new TruelyticsUserDetails()
+        //    {
+        //        TruelyticsUserId = truelyticsUserId, 
+        //        TruelyticsApiKey = truelyticsApiKey
+        //    }));
+
+        //    return Ok();
+        //}
+#endif
+
         [Route("user-info")]
         [Route("user-details")]
         public ActionResult<TruelyticsUserDetails> GetUserInfo()
@@ -31,6 +49,8 @@ namespace DotNetAngular.Api
         public async Task<ActionResult<string?>> GenerateAuthToken()
         {
             var user = JsonConvert.DeserializeObject<TruelyticsUserDetails>(HttpContext.Session.GetString("TruelyticsUserDetails") ?? "{}");
+
+            if(string.IsNullOrWhiteSpace(user.TruelyticsApiKey)) return null!;
 
             return (await _truelyticsService.GenerateSsoTokenAsync(user.TruelyticsApiKey))?.ToString();
         }
